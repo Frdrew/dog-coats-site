@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Contact — Clovis Coats</title>
+  <link rel="stylesheet" href="css/styles.css"/>
+</head>
+<body>
+  <header class="nav">
+    <div class="container nav-inner">
+      <a class="brand" href="index.html">
+        <span class="brand-badge">CC</span><span>Clovis Coats</span>
+      </a>
+      <nav class="nav-links">
+        <a href="products.html">Coats</a>
+        <a href="tryon.html">Virtual Try-On</a>
+        <a href="about.html">Our Story</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="section">
+    <div class="container">
+      <div class="section-title">
+        <div>
+          <h2 class="reveal">Contact</h2>
+          <p class="reveal">Add email/Instagram/Etsy later. For now: a clean form.</p>
+        </div>
+      </div>
+
+      <div class="panel reveal">
+        <div class="panel-head"><h3>Send a message</h3></div>
+        <div class="panel-body">
+          <form onsubmit="event.preventDefault(); alert('Form demo only — wire to email service later.');">
+            <label>Name</label>
+            <input style="width:100%;padding:.7rem;border-radius:14px;border:1px solid rgba(255,255,255,.12);background:rgba(11,15,20,.35);color:var(--text);" required/>
+
+            <label style="display:block;margin-top:.7rem;">Email</label>
+            <input type="email" style="width:100%;padding:.7rem;border-radius:14px;border:1px solid rgba(255,255,255,.12);background:rgba(11,15,20,.35);color:var(--text);" required/>
+
+            <label style="display:block;margin-top:.7rem;">Message</label>
+            <textarea rows="5" style="width:100%;padding:.7rem;border-radius:14px;border:1px solid rgba(255,255,255,.12);background:rgba(11,15,20,.35);color:var(--text);" required></textarea>
+
+            <div style="margin-top:1rem;display:flex;gap:.7rem;flex-wrap:wrap;">
+              <button class="btn primary" type="submit">Send</button>
+              <a class="btn" href="tryon.html">Try-On →</a>
+            </div>
+
+            <p class="hint" style="margin-top:1rem;">
+              Later we can connect this to a free form backend (Netlify Forms) with zero code.
+            </p>
+          </form>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <small><strong>Clovis Coats</strong> — Southwest Dog Coats • Clovis, New Mexico</small>
+      <small>© <span id="year"></span></small>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+  <script>document.getElementById("year").textContent = new Date().getFullYear();</script>
+</body>
+</html>

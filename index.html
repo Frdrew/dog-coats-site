@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Clovis Coats — Southwest Dog Coats</title>
+  <link rel="stylesheet" href="css/styles.css"/>
+</head>
+<body>
+  <header class="nav">
+    <div class="container nav-inner">
+      <a class="brand" href="index.html">
+        <span class="brand-badge">CC</span>
+        <span>Clovis Coats</span>
+      </a>
+      <nav class="nav-links">
+        <a href="products.html">Coats</a>
+        <a href="tryon.html">Virtual Try-On</a>
+        <a href="about.html">Our Story</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container hero-grid">
+        <div class="hero-card reveal">
+          <div class="hero-media"></div>
+          <div class="hero-overlay"></div>
+          <div class="hero-content">
+            <span class="kicker"><span class="kicker-dot"></span> Handmade in Clovis, New Mexico</span>
+            <h1>Modern dog coats with a Southwest soul.</h1>
+            <p>
+              Sleek, durable, and cozy—designed with Mexican + Native-inspired color stories,
+              artisan details, and an easy virtual try-on.
+            </p>
+            <div class="cta-row">
+              <a class="btn primary" href="tryon.html">Try it on →</a>
+              <a class="btn" href="products.html">Browse coats</a>
+            </div>
+          </div>
+        </div>
+
+        <aside class="side-card reveal">
+          <h3>Signature Vibe</h3>
+          <p>Turquoise + adobe + sun-gold accents, clean typography, and movement that feels high-end.</p>
+          <div style="height:.8rem"></div>
+          <h3>Fast & Affordable</h3>
+          <p>No framework. No paid tools. Upload anywhere (GitHub Pages / Netlify).</p>
+          <div style="height:.8rem"></div>
+          <h3>Built for Photos</h3>
+          <p>Looks amazing with real dogs + coat textures. Just swap the images in <code>assets</code>.</p>
+        </aside>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container section-title">
+        <h2 class="reveal">Featured Coats</h2>
+        <p class="reveal">3D tilt cards + smooth reveal animations</p>
+      </div>
+
+      <div class="container grid">
+        <a class="card reveal" href="products.html" data-tilt>
+          <div class="badge">New</div>
+          <div class="card-media"></div>
+          <div class="card-body">
+            <h4>Adobe Storm</h4>
+            <p>Warm clay tones with sleek trim.</p>
+          </div>
+        </a>
+
+        <a class="card reveal" href="products.html" data-tilt>
+          <div class="badge">Best Seller</div>
+          <div class="card-media"></div>
+          <div class="card-body">
+            <h4>Turquoise Night</h4>
+            <p>Bold turquoise accents on midnight base.</p>
+          </div>
+        </a>
+
+        <a class="card reveal" href="products.html" data-tilt>
+          <div class="badge">Limited</div>
+          <div class="card-media"></div>
+          <div class="card-body">
+            <h4>Sun-Gold Mesa</h4>
+            <p>Golden warmth inspired by NM sunsets.</p>
+          </div>
+        </a>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container parallax reveal" data-parallax>
+        <div class="parallax-content">
+          <h3>Built for wind, chill, and compliments.</h3>
+          <p>Parallax background + luxurious overlays give the site a modern 3D feel while staying fast.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <small><strong>Clovis Coats</strong> — Southwest Dog Coats • Clovis, New Mexico</small>
+      <small>© <span id="year"></span> • Made with love</small>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>

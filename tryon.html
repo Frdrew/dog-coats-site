@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Virtual Try-On — Clovis Coats</title>
+  <link rel="stylesheet" href="css/styles.css"/>
+</head>
+<body>
+  <header class="nav">
+    <div class="container nav-inner">
+      <a class="brand" href="index.html">
+        <span class="brand-badge">CC</span><span>Clovis Coats</span>
+      </a>
+      <nav class="nav-links">
+        <a href="products.html">Coats</a>
+        <a href="tryon.html">Virtual Try-On</a>
+        <a href="about.html">Our Story</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="section">
+    <div class="container section-title">
+      <div>
+        <h2 class="reveal">Virtual Try-On (MVP)</h2>
+        <p class="reveal">Use camera or upload a dog photo. Drag the coat to fit.</p>
+      </div>
+    </div>
+
+    <div class="container tryon-wrap">
+      <section class="panel reveal">
+        <div class="panel-head">
+          <h3>Try-On Stage</h3>
+          <div style="display:flex; gap:.5rem; flex-wrap:wrap;">
+            <button class="btn" id="startCam" type="button">Start Camera</button>
+            <button class="btn" id="stopCam" type="button">Stop</button>
+          </div>
+        </div>
+        <div class="panel-body">
+          <div class="stage">
+            <video id="cam" playsinline muted></video>
+            <canvas id="canvas"></canvas>
+          </div>
+          <div class="hint">
+            Tip: click/touch and drag the coat. Use sliders to size/rotate.
+          </div>
+        </div>
+      </section>
+
+      <aside class="panel reveal">
+        <div class="panel-head">
+          <h3>Controls</h3>
+          <button class="btn" id="reset" type="button">Reset</button>
+        </div>
+        <div class="panel-body controls">
+          <label for="coatSelect">Choose coat overlay</label>
+          <select id="coatSelect">
+            <option value="assets/coats/coat-1.png">Coat 1 (default)</option>
+            <option value="assets/coats/coat-2.png">Coat 2</option>
+            <option value="assets/coats/coat-3.png">Coat 3</option>
+          </select>
+
+          <label for="bgUpload">Or upload a dog photo</label>
+          <input id="bgUpload" type="file" accept="image/*"/>
+
+          <label for="scale">Scale</label>
+          <input id="scale" type="range" min="0.2" max="1.2" step="0.01" value="0.55"/>
+
+          <label for="rotate">Rotate (degrees)</label>
+          <input id="rotate" type="range" min="-45" max="45" step="1" value="0"/>
+
+          <label for="opacity">Overlay opacity</label>
+          <input id="opacity" type="range" min="0.2" max="1" step="0.01" value="0.95"/>
+
+          <div style="height:.8rem"></div>
+          <button class="btn primary" id="export" type="button">Export PNG</button>
+
+          <p class="hint">
+            For best results: use coat PNGs with transparent background in <code>assets/coats/</code>.
+          </p>
+        </div>
+      </aside>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <small><strong>Clovis Coats</strong> — Southwest Dog Coats • Clovis, New Mexico</small>
+      <small>© <span id="year"></span></small>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+  <script src="js/tryon.js"></script>
+  <script>document.getElementById("year").textContent = new Date().getFullYear();</script>
+</body>
+</html>

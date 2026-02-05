@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Coats — Clovis Coats</title>
+  <link rel="stylesheet" href="css/styles.css"/>
+</head>
+<body>
+  <header class="nav">
+    <div class="container nav-inner">
+      <a class="brand" href="index.html">
+        <span class="brand-badge">CC</span><span>Clovis Coats</span>
+      </a>
+      <nav class="nav-links">
+        <a href="products.html">Coats</a>
+        <a href="tryon.html">Virtual Try-On</a>
+        <a href="about.html">Our Story</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="section">
+    <div class="container section-title">
+      <div>
+        <h2 class="reveal">Coat Gallery</h2>
+        <p class="reveal">Swap images + names as you add real inventory.</p>
+      </div>
+      <a class="btn primary reveal" href="tryon.html">Try-On →</a>
+    </div>
+
+    <div class="container grid">
+      <!-- Duplicate cards as needed -->
+      <div class="card reveal" data-tilt>
+        <div class="card-media" style="background-image:url('assets/img/coat1.jpg');"></div>
+        <div class="card-body">
+          <h4>Adobe Storm</h4>
+          <p>Cozy lining • water-resistant shell • artisan trim.</p>
+        </div>
+      </div>
+
+      <div class="card reveal" data-tilt>
+        <div class="card-media" style="background-image:url('assets/img/coat2.jpg');"></div>
+        <div class="card-body">
+          <h4>Turquoise Night</h4>
+          <p>Bold accents • clean silhouette • photo-ready.</p>
+        </div>
+      </div>
+
+      <div class="card reveal" data-tilt>
+        <div class="card-media" style="background-image:url('assets/img/coat3.jpg');"></div>
+        <div class="card-body">
+          <h4>Sun-Gold Mesa</h4>
+          <p>Warm hues • soft interior • lightweight comfort.</p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <small><strong>Clovis Coats</strong> — Southwest Dog Coats • Clovis, New Mexico</small>
+      <small>© <span id="year"></span></small>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+  <script>document.getElementById("year").textContent = new Date().getFullYear();</script>
+</body>
+</html>
