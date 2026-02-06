@@ -369,6 +369,21 @@ h1{
   border-top: 1px dashed rgba(255,255,255,.12);
 }
 
+.custom-note {
+  margin: 1.2rem 0;
+  padding: .9rem 1rem;
+  border-radius: 16px;
+  background: rgba(16,24,38,.30);
+  border-left: 3px solid rgba(198,93,58,.6);
+  font-size: .92rem;
+  color: var(--muted);
+}
+
+.custom-note strong {
+  color: var(--text);
+  font-weight: 600;
+}
+
 .upload-title {
   font-size: .9rem;
   color: var(--muted);
