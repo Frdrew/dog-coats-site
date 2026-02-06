@@ -39,6 +39,15 @@ const overlay = {
   opacity: 0.95,
 };
 
+// --- Subtle size-based overlay scaling ---
+const sizeScaleMap = {
+  xs: 0.48,
+  sm: 0.52,
+  med: 0.55, // baseline
+  lg: 0.58,
+  xl: 0.62
+};
+
 function resizeCanvasToStage(){
   const stage = canvas.parentElement;
   const rect = stage.getBoundingClientRect();
@@ -257,6 +266,9 @@ canvas.addEventListener("pointercancel", onUp);
 
 /* Controls */
 scaleRange.addEventListener("input", () => overlay.scale = Number(scaleRange.value));
+overlay.scale = sizeScaleMap[currentDogSize] || 0.55;
+scaleRange.value = overlay.scale;
+
 rotateRange.addEventListener("input", () => overlay.rotate = Number(rotateRange.value));
 opacityRange.addEventListener("input", () => overlay.opacity = Number(opacityRange.value));
 
@@ -348,6 +360,10 @@ document.querySelectorAll(".size-grid button").forEach(btn => {
     updateDogImage();
   });
 });
-
+// Adjust overlay scale gently based on size
+if (sizeScaleMap[currentDogSize]) {
+  overlay.scale = sizeScaleMap[currentDogSize];
+  scaleRange.value = overlay.scale;
+}
 // First load
 updateDogImage();
