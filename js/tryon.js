@@ -165,7 +165,32 @@ sizeButtons.forEach(btn => {
 <div class="dog-stage">
   <img id="dogImage" alt="Dog reference" />
 </div>
+// --- Coat Style Selector ---
+const styleButtons = document.querySelectorAll(".coat-style-grid button");
+const styleNote = document.getElementById("styleNote");
 
+let currentStyle = "winter";
+
+styleButtons.forEach(btn => {
+  btn.addEventListener("click", () => {
+    styleButtons.forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
+
+    currentStyle = btn.dataset.style;
+
+    let label = "Winter Coat";
+    if (currentStyle === "rain") label = "Rain Coat";
+    if (currentStyle === "costume") label = "Seasonal / Costume";
+
+    styleNote.innerHTML = `
+      Shown as a representative <strong>${label}</strong>.
+      Final design may vary for custom orders.
+    `;
+
+    // Future hook:
+    // adjustOverlayByStyle(currentStyle);
+  });
+});
 
   // Overlay coat
   if(coatLoaded){

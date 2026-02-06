@@ -360,6 +360,47 @@ h1{
   color: var(--text);
   font-weight: 600;
 }
+.coat-style-selector {
+  margin-bottom: 1.2rem;
+}
+
+.coat-style-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: .5rem;
+}
+
+.coat-style-grid button {
+  text-align: left;
+  padding: .7rem .9rem;
+  border-radius: 16px;
+  border: 1px solid rgba(255,255,255,.12);
+  background: rgba(16,24,38,.55);
+  color: var(--text);
+  cursor: pointer;
+  transition: transform .25s var(--ease), background .25s var(--ease);
+}
+
+.coat-style-grid button span {
+  display: block;
+  font-size: .8rem;
+  color: var(--muted);
+  font-weight: 400;
+}
+
+.coat-style-grid button:hover {
+  transform: translateY(-2px);
+  background: rgba(16,24,38,.75);
+}
+
+.coat-style-grid button.active {
+  background: linear-gradient(
+    135deg,
+    rgba(46,196,199,.9),
+    rgba(198,93,58,.9)
+  );
+  border-color: rgba(255,255,255,.25);
+}
 
 .panel{
   border-radius: var(--radius);
