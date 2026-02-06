@@ -103,20 +103,16 @@
             <option value="assets/coats/coat-3.png">Coat 3</option>
           </select>
 
-          <label for="bgUpload">Or upload a dog photo</label>
-          <input id="bgUpload" type="file" accept="image/*"/>
+          <div class="upload-optional">
+  <p class="upload-title">Optional: visualize on your own dog</p>
 
-          <label for="scale">Scale</label>
-          <input id="scale" type="range" min="0.2" max="1.2" step="0.01" value="0.55"/>
+  <input id="bgUpload" type="file" accept="image/*"/>
 
-          <label for="rotate">Rotate (degrees)</label>
-          <input id="rotate" type="range" min="-45" max="45" step="1" value="0"/>
-
-          <label for="opacity">Overlay opacity</label>
-          <input id="opacity" type="range" min="0.2" max="1" step="0.01" value="0.95"/>
-
-          <div style="height:.8rem"></div>
-          <button class="btn primary" id="export" type="button">Export PNG</button>
+  <p class="upload-note">
+    This preview helps with placement only. Final fit is refined
+    during custom making.
+  </p>
+</div>
 
           <p class="hint">
             For best results: use coat PNGs with transparent background in <code>assets/coats/</code>.

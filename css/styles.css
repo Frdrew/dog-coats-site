@@ -363,6 +363,24 @@ h1{
 .coat-style-selector {
   margin-bottom: 1.2rem;
 }
+.upload-optional {
+  margin-top: 1.2rem;
+  padding-top: .8rem;
+  border-top: 1px dashed rgba(255,255,255,.12);
+}
+
+.upload-title {
+  font-size: .9rem;
+  color: var(--muted);
+  margin-bottom: .4rem;
+}
+
+.upload-note {
+  margin-top: .4rem;
+  font-size: .8rem;
+  color: var(--muted);
+  opacity: .9;
+}
 
 .coat-style-grid {
   display: grid;

@@ -165,6 +165,7 @@ sizeButtons.forEach(btn => {
 <div class="dog-stage">
   <img id="dogImage" alt="Dog reference" />
 </div>
+
 // --- Coat Style Selector ---
 const styleButtons = document.querySelectorAll(".coat-style-grid button");
 const styleNote = document.getElementById("styleNote");
