@@ -509,6 +509,14 @@ button:hover {
   width:100%; height:100%;
   object-fit: cover;
 }
+
+.dog-stage {
+  min-height: 420px;   /* 👈 THIS is the key */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .controls label{
   display:block;
   font-size:.9rem;

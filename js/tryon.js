@@ -373,3 +373,9 @@ if (sizeScaleMap[currentDogSize]) {
 }
 // First load
 updateDogImage();
+
+if (!file) {
+  dogImageEl.src = "assets/dogs/xs/shih tzu front.png";
+  dogImageEl.style.opacity = 1;
+  return;
+}
