@@ -23,6 +23,16 @@
   --max: 1120px;
   --ease: cubic-bezier(.2,.8,.2,1);
 }
+:root {
+  --ease-soft: cubic-bezier(.22,.61,.36,1);
+  --ease-slower: cubic-bezier(.16,.84,.44,1);
+
+  --dur-fast: .45s;
+  --dur-base: .8s;
+  --dur-slow: 1.2s;
+  --dur-ultra: 2.4s;
+}
+
 
 *{ box-sizing:border-box; }
 html,body{ height:100%; }
@@ -41,6 +51,9 @@ body{
 
 a{ color:inherit; text-decoration:none; }
 img{ max-width:100%; display:block; }
+img {
+  transition: opacity var(--dur-base) var(--ease-soft);
+}
 .container{ width:min(var(--max), calc(100% - 2rem)); margin:0 auto; }
 
 /* Subtle woven pattern overlay */
@@ -140,9 +153,16 @@ body:before{
   transform: scale(1);
   animation: kenburns 18s ease-in-out infinite alternate;
 }
-@keyframes kenburns{
-  from{ transform: scale(1) translate3d(0,0,0); }
-  to  { transform: scale(1.12) translate3d(-2%, -2%, 0); }
+
+@keyframes kenburns {
+  from { transform: scale(1); }
+  to   { transform: scale(1.05); }
+}
+
+.hero img {
+  animation: kenburns 28s var(--ease-slower) infinite alternate;
+}
+
 }
 .hero-overlay{
   position:absolute; inset:0;
@@ -191,7 +211,17 @@ h1{
   box-shadow: var(--shadow2);
   transition: transform .25s var(--ease), background .25s var(--ease), border .25s var(--ease);
 }
-.btn:hover{ transform: translateY(-2px); background: rgba(16,24,38,.85); }
+
+.btn:hover{ transform: translateY(-2px); background: rgba(16,24,38,.85); }button {
+  transition:
+    transform var(--dur-base) var(--ease-soft),
+    background-color var(--dur-base) var(--ease-soft);
+}
+
+button:hover {
+  transform: translateY(-1px);
+}
+
 .btn.primary{
   background: linear-gradient(135deg, rgba(46,196,199,.95), rgba(198,93,58,.95));
   border: 1px solid rgba(255,255,255,.20);
@@ -290,6 +320,19 @@ h1{
   transition: transform .18s var(--ease), box-shadow .25s var(--ease);
 }
 .card:hover{ box-shadow: 0 26px 80px rgba(0,0,0,.55); }
+
+.card {
+  transition:
+    transform var(--dur-base) var(--ease-soft),
+    box-shadow var(--dur-base) var(--ease-soft);
+}
+
+.card:not(:hover) {
+  transition:
+    transform var(--dur-ultra) var(--ease-slower),
+    box-shadow var(--dur-ultra) var(--ease-slower);
+}
+
 .card-media{
   height: 170px;
   background: linear-gradient(135deg, rgba(46,196,199,.25), rgba(198,93,58,.18)),
@@ -311,13 +354,16 @@ h1{
 /* =========================
    Reveal animations
    ========================= */
-.reveal{
-  opacity:0;
+.reveal {
+  opacity: 0;
   transform: translateY(14px);
-  transition: opacity .7s var(--ease), transform .7s var(--ease);
+  transition:
+    opacity var(--dur-slow) var(--ease-soft),
+    transform var(--dur-slow) var(--ease-soft);
 }
-.reveal.show{
-  opacity:1;
+
+.reveal.visible {
+  opacity: 1;
   transform: translateY(0);
 }
 
@@ -553,4 +599,12 @@ h1{
 .view-toggle button.active{
   background: rgba(46,196,199,.9);
   color:#000;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+  }
 }

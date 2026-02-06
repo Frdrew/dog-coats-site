@@ -171,6 +171,12 @@ sizeButtons.forEach(btn => {
   <button data-view="right" type="button">Back</button>
 </div>
 
+img.style.opacity = 0;
+setTimeout(() => {
+  img.src = newSrc;
+  img.style.opacity = 1;
+}, 240);
+
 <div class="dog-stage">
   <img id="dogImage" alt="Dog reference" />
 </div>
