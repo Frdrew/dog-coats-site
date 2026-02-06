@@ -20,7 +20,14 @@
       </nav>
     </div>
   </header>
-
+<div class="tryon-intro">
+  <p>
+    <strong>Visual Fit Preview</strong><br>
+    Select a dog similar in size to yours to preview fit, proportion, and style.
+    Coats shown are representative designs — final garments are handmade and
+    refined for your dog.
+  </p>
+</div>
   <main class="section">
     <div class="container section-title">
       <div>
@@ -56,8 +63,8 @@
   <button data-view="front" class="active">Front</button>
   <button data-view="side">Side</button>
   <button data-view="back">Back</button>
+  
 </div>
-
       <aside class="panel reveal">
         <div class="panel-head">
           <h3>Controls</h3>
@@ -89,6 +96,11 @@
           <p class="hint">
             For best results: use coat PNGs with transparent background in <code>assets/coats/</code>.
           </p>
+		  <p class="hint">
+           Optional: upload a photo of your dog for placement reference only.
+           Final fit is adjusted during custom making.
+         </p>
+
         </div>
       </aside>
     </div>
@@ -102,7 +114,7 @@
   </footer>
 
   <script src="js/main.js"></script>
-  <script src="js/tryon.js"></script>
+ 
   <script>document.getElementById("year").textContent = new Date().getFullYear();</script>
 </body>
 </html>
