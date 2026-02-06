@@ -125,6 +125,47 @@ function draw(){
     ctx.font = "16px system-ui";
     ctx.fillText("Start Camera or Upload a Dog Photo →", 16, 28);
   }
+  let currentSize = "med";
+let currentView = "front";
+
+const dogImage = document.getElementById("dogImage");
+const viewButtons = document.querySelectorAll(".view-toggle button");
+
+function updateDogImage() {
+  dogImage.style.opacity = 0;
+  setTimeout(() => {
+    dogImage.src = `assets/dogs/${currentSize}/${currentView}.png`;
+    dogImage.style.opacity = 1;
+  }, 150);
+}
+
+viewButtons.forEach(btn => {
+  btn.addEventListener("click", () => {
+    viewButtons.forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
+    currentView = btn.dataset.view;
+    updateDogImage();
+  });
+});
+
+// Hook into your existing size selector
+sizeButtons.forEach(btn => {
+  btn.addEventListener("click", () => {
+    currentSize = btn.dataset.size.toLowerCase();
+    updateDogImage();
+  });
+});
+
+<div class="view-toggle">
+  <button data-view="front" class="active" type="button">Front</button>
+  <button data-view="left" type="button">Side</button>
+  <button data-view="right" type="button">Back</button>
+</div>
+
+<div class="dog-stage">
+  <img id="dogImage" alt="Dog reference" />
+</div>
+
 
   // Overlay coat
   if(coatLoaded){
@@ -222,3 +263,65 @@ exportBtn.addEventListener("click", () => {
 resizeCanvasToStage();
 loadCoat("assets/coats/coat-1.png"); // default
 draw();
+// --- Dog reference image loader (Option A: keep your filenames) ---
+let currentDogSize = "xs";     // xs, sm, med, lg, xl
+let currentDogView = "front";  // front, left, right
+
+const dogImageEl = document.getElementById("dogImage");
+const viewBtns = document.querySelectorAll(".view-toggle button");
+
+// A small map of size -> list of files. We'll fetch a JSON list we create manually.
+// Easiest no-server way: hardcode per folder (you can expand gradually).
+const dogFiles = {
+  xs: ["shih tzu front.png", "shih tzu left.png", "shih tzu right.png"],
+  sm: [],
+  med: [],
+  lg: [],
+  xl: []
+};
+
+function pickDogFile(sizeKey, viewKey){
+  const files = dogFiles[sizeKey] || [];
+  // find file that includes the view word
+  return files.find(f => f.toLowerCase().includes(viewKey)) || null;
+}
+
+function updateDogImage(){
+  const file = pickDogFile(currentDogSize, currentDogView);
+  if(!file){
+    // If you haven’t filled in that folder yet
+    dogImageEl.removeAttribute("src");
+    dogImageEl.alt = `No dog image set yet for ${currentDogSize} / ${currentDogView}`;
+    return;
+  }
+
+  dogImageEl.style.opacity = 0;
+  setTimeout(() => {
+    dogImageEl.src = `assets/dogs/${currentDogSize}/${encodeURIComponent(file)}`;
+    dogImageEl.style.opacity = 1;
+  }, 120);
+}
+
+// View buttons
+viewBtns.forEach(btn => {
+  btn.addEventListener("click", () => {
+    viewBtns.forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
+    currentDogView = btn.dataset.view;
+    updateDogImage();
+  });
+});
+
+// Hook into your size selector buttons if you added them earlier
+// If your size buttons have data-size="XS" etc:
+document.querySelectorAll(".size-grid button").forEach(btn => {
+  btn.addEventListener("click", () => {
+    const sizeRaw = btn.dataset.size; // XS, S, M, L, XL
+    const map = { XS:"xs", S:"sm", M:"med", L:"lg", XL:"xl" };
+    currentDogSize = map[sizeRaw] || "med";
+    updateDogImage();
+  });
+});
+
+// First load
+updateDogImage();
