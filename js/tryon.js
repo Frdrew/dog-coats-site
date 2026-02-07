@@ -1,13 +1,9 @@
 /**
- * Virtual Try-On MVP (Clean, Honest Version)
- * - Camera OR uploaded photo for placement reference
- * - Dog size + view reference images
- * - Canvas export (no coat overlays until real assets exist)
+ * Virtual Try-On MVP (v1 Complete)
+ * Size → Breed → View reference system
+ * Camera / upload for placement reference
  */
 
-// =====================
-// DOM ELEMENTS
-// =====================
 const video = document.getElementById("cam");
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
@@ -18,126 +14,113 @@ const bgUpload = document.getElementById("bgUpload");
 const exportBtn = document.getElementById("export");
 const resetBtn = document.getElementById("reset");
 
-const scaleRange = document.getElementById("scale");
-const rotateRange = document.getElementById("rotate");
-const opacityRange = document.getElementById("opacity");
-
 const dogImageEl = document.getElementById("dogImage");
 const viewBtns = document.querySelectorAll(".view-toggle button");
 const sizeBtns = document.querySelectorAll(".size-grid button");
+const breedSelect = document.getElementById("breedSelect");
 
-// =====================
-// STATE
-// =====================
 let stream = null;
 let useCamera = false;
-
 const bgImg = new Image();
 let hasBgImage = false;
 
 const state = {
-  dogSize: "xs",       // xs | sm | med | lg | xl
-  dogView: "front",    // front | left | right
+  size: "xs",
+  breed: "",
+  view: "front"
 };
 
-// Gentle visual scaling per size (future-proof)
-const sizeScaleMap = {
-  xs: 0.48,
-  sm: 0.52,
-  med: 0.55,
-  lg: 0.58,
-  xl: 0.62,
+// -----------------------------
+// BREED DATA (manual, fast)
+// You can extend this anytime
+// -----------------------------
+const breedsBySize = {
+  xs: ["Chihuahua", "Papillon", "Pomeranian", "Yorkshire Terrier"],
+  sm: ["Dachshund", "French Bulldog", "Jack Russel", "Shih Tzu"],
+  med: [],
+  lg: [],
+  xl: []
 };
 
-// =====================
-// DOG REFERENCE FILE MAP
-// (keep filenames as-is)
-// =====================
-const dogFiles = {
-  xs: ["shih tzu front.png", "shih tzu left.png", "shih tzu right.png"],
-  // add others later when ready
-};
+function populateBreeds() {
+  breedSelect.innerHTML = "";
+  const breeds = breedsBySize[state.size] || [];
 
-function pickDogFile(size, view) {
-  const files = dogFiles[size] || [];
-  return files.find(f => f.toLowerCase().includes(view)) || files[0];
+  breeds.forEach((breed, i) => {
+    const opt = document.createElement("option");
+    opt.value = breed;
+    opt.textContent = breed;
+    breedSelect.appendChild(opt);
+    if (i === 0) state.breed = breed;
+  });
 }
 
 function updateDogImage() {
-  if (!dogImageEl) return;
-
-  const file = pickDogFile(state.dogSize, state.dogView);
-  if (!file) return;
+  if (!state.breed) return;
 
   dogImageEl.style.opacity = 0;
   setTimeout(() => {
-    dogImageEl.src = `assets/dogs/${state.dogSize}/${encodeURIComponent(file)}`;
-    dogImageEl.alt = `Dog reference: ${state.dogSize} / ${state.dogView}`;
+    dogImageEl.src = `assets/dogs/${state.size}/${state.breed}/${state.view}.png`;
+    dogImageEl.alt = `${state.size} ${state.breed} ${state.view}`;
     dogImageEl.style.opacity = 1;
   }, 200);
 }
 
-// =====================
-// SIZE & VIEW CONTROLS
-// =====================
-viewBtns.forEach(btn => {
-  btn.addEventListener("click", () => {
-    viewBtns.forEach(b => b.classList.remove("active"));
-    btn.classList.add("active");
-    state.dogView = btn.dataset.view;
-    updateDogImage();
-  });
-});
-
+// -----------------------------
+// SIZE / BREED / VIEW CONTROLS
+// -----------------------------
 sizeBtns.forEach(btn => {
   btn.addEventListener("click", () => {
     sizeBtns.forEach(b => b.classList.remove("active"));
     btn.classList.add("active");
 
     const map = { XS: "xs", S: "sm", M: "med", L: "lg", XL: "xl" };
-    state.dogSize = map[btn.dataset.size] || "xs";
-
+    state.size = map[btn.dataset.size] || "xs";
+    populateBreeds();
     updateDogImage();
   });
 });
 
-// =====================
-// CANVAS + CAMERA
-// =====================
-function resizeCanvas() {
-  const stage = canvas.parentElement;
-  const rect = stage.getBoundingClientRect();
-  const dpr = window.devicePixelRatio || 1;
+breedSelect.addEventListener("change", e => {
+  state.breed = e.target.value;
+  updateDogImage();
+});
 
+viewBtns.forEach(btn => {
+  btn.addEventListener("click", () => {
+    viewBtns.forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
+    state.view = btn.dataset.view;
+    updateDogImage();
+  });
+});
+
+// -----------------------------
+// CANVAS / CAMERA
+// -----------------------------
+function resizeCanvas() {
+  const rect = canvas.parentElement.getBoundingClientRect();
+  const dpr = window.devicePixelRatio || 1;
   canvas.width = rect.width * dpr;
   canvas.height = rect.height * dpr;
-  canvas.style.width = `${rect.width}px`;
-  canvas.style.height = `${rect.height}px`;
-
+  canvas.style.width = rect.width + "px";
+  canvas.style.height = rect.height + "px";
   ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 }
 window.addEventListener("resize", resizeCanvas);
 
 async function startCamera() {
   try {
-    stream = await navigator.mediaDevices.getUserMedia({
-      video: { facingMode: "environment" },
-      audio: false,
-    });
+    stream = await navigator.mediaDevices.getUserMedia({ video: true });
     video.srcObject = stream;
     await video.play();
     useCamera = true;
-  } catch {
-    useCamera = false;
-  }
+  } catch {}
 }
 
 function stopCamera() {
   useCamera = false;
-  if (stream) {
-    stream.getTracks().forEach(t => t.stop());
-    stream = null;
-  }
+  if (stream) stream.getTracks().forEach(t => t.stop());
   video.srcObject = null;
 }
 
@@ -151,9 +134,6 @@ function loadBg(file) {
   bgImg.src = url;
 }
 
-// =====================
-// RENDER LOOP
-// =====================
 function draw() {
   resizeCanvas();
   const w = canvas.clientWidth;
@@ -164,22 +144,18 @@ function draw() {
   } else if (hasBgImage) {
     ctx.drawImage(bgImg, 0, 0, w, h);
   } else {
-    const g = ctx.createLinearGradient(0, 0, w, h);
-    g.addColorStop(0, "#0b0f14");
-    g.addColorStop(1, "#101826");
-    ctx.fillStyle = g;
+    ctx.fillStyle = "#0b0f14";
     ctx.fillRect(0, 0, w, h);
   }
-
   requestAnimationFrame(draw);
 }
 
-// =====================
+// -----------------------------
 // CONTROLS
-// =====================
-bgUpload.addEventListener("change", e => loadBg(e.target.files[0]));
+// -----------------------------
 startCamBtn.addEventListener("click", startCamera);
 stopCamBtn.addEventListener("click", stopCamera);
+bgUpload.addEventListener("change", e => loadBg(e.target.files[0]));
 
 resetBtn.addEventListener("click", () => {
   stopCamera();
@@ -193,9 +169,9 @@ exportBtn.addEventListener("click", () => {
   a.click();
 });
 
-// =====================
+// -----------------------------
 // BOOT
-// =====================
-resizeCanvas();
+// -----------------------------
+populateBreeds();
 updateDogImage();
 draw();
