@@ -20,23 +20,17 @@
       </nav>
     </div>
   </header>
-<div class="tryon-intro">
-  <p>
-    <strong>Visual Fit Preview</strong><br>
-    Select a dog similar in size to yours to preview fit, proportion, and style.
-    Coats shown are representative designs — final garments are handmade and
-    refined for your dog.
-  </p>
-</div>
+
   <main class="section">
     <div class="container section-title">
       <div>
-        <h2 class="reveal">Virtual Try-On (MVP)</h2>
-        <p class="reveal">Use camera or upload a dog photo. Drag the coat to fit.</p>
+        <h2 class="reveal">Fit & Style Preview</h2>
+        <p class="reveal">Select a dog similar in size to yours to preview fit, proportion, and style.</p>
       </div>
     </div>
 
     <div class="container tryon-wrap">
+      <!-- LEFT: Canvas stage -->
       <section class="panel reveal">
         <div class="panel-head">
           <h3>Try-On Stage</h3>
@@ -45,6 +39,7 @@
             <button class="btn" id="stopCam" type="button">Stop</button>
           </div>
         </div>
+
         <div class="panel-body">
           <div class="stage">
             <video id="cam" playsinline muted></video>
@@ -55,47 +50,71 @@
           </div>
         </div>
       </section>
-	  <div class="dog-stage">
-  <img id="dogImage" alt="Dog reference" />
-</div>
 
-<div class="view-toggle">
-  <button data-view="front" class="active">Front</button>
-  <button data-view="side">Side</button>
-  <button data-view="back">Back</button>
-  
-</div>
+      <!-- RIGHT: Controls -->
       <aside class="panel reveal">
         <div class="panel-head">
           <h3>Controls</h3>
           <button class="btn" id="reset" type="button">Reset</button>
         </div>
-		<div class="coat-style-selector">
-  <p class="selector-title">Choose a coat style</p>
 
-  <div class="coat-style-grid">
-    <button data-style="winter" class="active">
-      <strong>Winter Coat</strong>
-      <span>Warm • Insulated • Everyday wear</span>
-    </button>
-
-    <button data-style="rain">
-      <strong>Rain Coat</strong>
-      <span>Lightweight • Water-resistant</span>
-    </button>
-
-    <button data-style="costume">
-      <strong>Seasonal / Costume</strong>
-      <span>Holiday • Themed • Custom</span>
-    </button>
-  </div>
-
-  <p id="styleNote" class="size-note">
-    Shown as a representative <strong>Winter Coat</strong>.
-    Final design may vary for custom orders.
-  </p>
-</div>
         <div class="panel-body controls">
+          <!-- Size/Breed selector (REQUIRED for JS hooks) -->
+          <div class="size-selector">
+            <p class="selector-title">Choose the dog closest to yours</p>
+
+            <div class="size-grid">
+              <button data-size="XS" data-breed="Shih Tzu" class="active" type="button">XS<br><span>Shih Tzu</span></button>
+              <button data-size="S" data-breed="Small" type="button">S<br><span>Small</span></button>
+              <button data-size="M" data-breed="Medium" type="button">M<br><span>Medium</span></button>
+              <button data-size="L" data-breed="Large" type="button">L<br><span>Large</span></button>
+              <button data-size="XL" data-breed="XL" type="button">XL<br><span>XL</span></button>
+            </div>
+
+            <p class="size-note">
+              Breed images are size references. Final fit is refined during custom making.
+            </p>
+          </div>
+
+          <!-- Dog reference image -->
+          <div class="dog-stage">
+            <img id="dogImage" alt="Dog size reference" />
+          </div>
+
+          <!-- View toggle: MUST match JS (front/left/right) -->
+          <div class="view-toggle">
+            <button data-view="front" class="active" type="button">Front</button>
+            <button data-view="left" type="button">Side</button>
+            <button data-view="right" type="button">Back</button>
+          </div>
+
+          <!-- Coat style selector -->
+          <div class="coat-style-selector">
+            <p class="selector-title">Choose a coat style</p>
+
+            <div class="coat-style-grid">
+              <button data-style="winter" class="active" type="button">
+                <strong>Winter Coat</strong>
+                <span>Warm • Insulated • Everyday wear</span>
+              </button>
+
+              <button data-style="rain" type="button">
+                <strong>Rain Coat</strong>
+                <span>Lightweight • Water-resistant</span>
+              </button>
+
+              <button data-style="costume" type="button">
+                <strong>Seasonal / Costume</strong>
+                <span>Holiday • Themed • Custom</span>
+              </button>
+            </div>
+
+            <p id="styleNote" class="size-note">
+              Shown as a representative <strong>Winter Coat</strong>. Final design may vary for custom orders.
+            </p>
+          </div>
+
+          <!-- Coat overlay selection -->
           <label for="coatSelect">Choose coat overlay</label>
           <select id="coatSelect">
             <option value="assets/coats/coat-1.png">Coat 1 (default)</option>
@@ -103,29 +122,36 @@
             <option value="assets/coats/coat-3.png">Coat 3</option>
           </select>
 
+          <!-- Optional upload -->
           <div class="upload-optional">
-  <p class="upload-title">Optional: visualize on your own dog</p>
+            <p class="upload-title">Optional: visualize on your own dog</p>
+            <input id="bgUpload" type="file" accept="image/*"/>
+            <p class="upload-note">
+              This preview helps with placement only. Final fit is refined during custom making.
+            </p>
+          </div>
 
-  <input id="bgUpload" type="file" accept="image/*"/>
+          <!-- Custom note -->
+          <div class="custom-note">
+            <p>
+              <strong>How custom works</strong><br>
+              Each coat is made by hand with your dog in mind. Previews guide the design,
+              but final fit, length, and details are adjusted during making to suit your dog’s
+              body and movement. No two dogs are exactly alike — and their coats shouldn’t be either.
+            </p>
+          </div>
 
-  <p class="upload-note">
-    This preview helps with placement only. Final fit is refined
-    during custom making.
-	<div class="custom-note">
-  <p>
-    <strong>How custom works</strong><br>
-    Each coat is made by hand with your dog in mind. Size references and previews
-    help guide the design, but final fit, length, and details are adjusted during
-    making to suit your dog’s body and movement. No two dogs are exactly alike —
-    and their coats shouldn’t be either.
-  </p> 
-</div>
+          <!-- Sliders (if they exist in your layout elsewhere keep them; otherwise add later) -->
+          <label for="scale">Scale</label>
+          <input id="scale" type="range" min="0.25" max="0.9" step="0.01" value="0.55"/>
 
-		  <p class="hint">
-           Optional: upload a photo of your dog for placement reference only.
-           Final fit is adjusted during custom making.
-         </p>
+          <label for="rotate">Rotate</label>
+          <input id="rotate" type="range" min="-45" max="45" step="1" value="0"/>
 
+          <label for="opacity">Opacity</label>
+          <input id="opacity" type="range" min="0.2" max="1" step="0.01" value="0.95"/>
+
+          <button class="btn" id="export" type="button">Export PNG</button>
         </div>
       </aside>
     </div>
@@ -139,8 +165,7 @@
   </footer>
 
   <script src="js/main.js"></script>
- 
+  <script src="js/tryon.js"></script>
   <script>document.getElementById("year").textContent = new Date().getFullYear();</script>
 </body>
 </html>
-<img src="assets/dogs/xs/shih tzu front.png" style="border:1px solid red">
