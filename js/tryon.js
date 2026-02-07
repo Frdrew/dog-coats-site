@@ -215,9 +215,9 @@ function loadCoat(src) {
     coatLoaded = true;
   };
   coatImg.onerror = () => {
-    coatLoaded = false;
-    alert("Couldn't load coat image.");
-  };
+  coatLoaded = false;
+
+};
   coatImg.src = src;
 }
 
@@ -361,3 +361,4 @@ resizeCanvasToStage();
 loadCoat("assets/coats/coat-1.png"); // default coat overlay
 updateDogImage();                    // show dog reference immediately
 draw();
+// loadCoat("assets/coats/coat-1.png");
