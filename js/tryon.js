@@ -362,3 +362,4 @@ loadCoat("assets/coats/coat-1.png"); // default coat overlay
 updateDogImage();                    // show dog reference immediately
 draw();
 // loadCoat("assets/coats/coat-1.png");
+// loadCoat("assets/coats/coat-1.png"); // disabled until real coat images exist
