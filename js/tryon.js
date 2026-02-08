@@ -149,3 +149,13 @@ function draw() {
   resizeCanvas();
   const w = canvas.clientWidth;
   const h = canvas.clientHeight;
+// -----------------------------
+// BOOT
+// -----------------------------
+const activeSizeBtn = document.querySelector(".size-grid button.active");
+if (activeSizeBtn) {
+  state.size = SIZE_MAP[activeSizeBtn.dataset.size];
+}
+
+populateBreeds();
+draw();
