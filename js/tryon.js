@@ -1,7 +1,6 @@
 /**
- * Virtual Try-On MVP (v1 Complete)
+ * Virtual Try-On MVP (stable)
  * Size → Breed → View reference system
- * Camera / upload for placement reference
  */
 
 const video = document.getElementById("cam");
@@ -11,7 +10,6 @@ const ctx = canvas.getContext("2d");
 const startCamBtn = document.getElementById("startCam");
 const stopCamBtn = document.getElementById("stopCam");
 const bgUpload = document.getElementById("bgUpload");
-const exportBtn = document.getElementById("export");
 const resetBtn = document.getElementById("reset");
 
 const dogImageEl = document.getElementById("dogImage");
@@ -24,16 +22,14 @@ let useCamera = false;
 const bgImg = new Image();
 let hasBgImage = false;
 
-const state = {
-  size: "xs",
-  breed: "",
-  view: "front"
+const SIZE_MAP = {
+  XS: "xs",
+  S: "sm",
+  M: "med",
+  L: "lg",
+  XL: "xl"
 };
 
-// -----------------------------
-// BREED DATA (manual, fast)
-// You can extend this anytime
-// -----------------------------
 const breedsBySize = {
   xs: ["Chihuahua", "Papillon", "Pomeranian", "Yorkshire Terrier"],
   sm: ["Dachshund", "French Bulldog", "Jack Russel", "Shih Tzu"],
@@ -42,19 +38,35 @@ const breedsBySize = {
   xl: []
 };
 
+const state = {
+  size: "xs",
+  breed: "",
+  view: "front"
+};
+
+// -----------------------------
+// BREEDS
+// -----------------------------
 function populateBreeds() {
   breedSelect.innerHTML = "";
-  const breeds = breedsBySize[state.size] || [];
 
-  breeds.forEach((breed, i) => {
+  const breeds = breedsBySize[state.size] || [];
+  if (!breeds.length) return;
+
+  breeds.forEach((breed, index) => {
     const opt = document.createElement("option");
     opt.value = breed;
     opt.textContent = breed;
     breedSelect.appendChild(opt);
-    if (i === 0) state.breed = breed;
+    if (index === 0) state.breed = breed;
   });
+
+  updateDogImage();
 }
 
+// -----------------------------
+// IMAGE
+// -----------------------------
 function updateDogImage() {
   if (!state.breed) return;
 
@@ -63,21 +75,19 @@ function updateDogImage() {
     dogImageEl.src = `assets/dogs/${state.size}/${state.breed}/${state.view}.png`;
     dogImageEl.alt = `${state.size} ${state.breed} ${state.view}`;
     dogImageEl.style.opacity = 1;
-  }, 200);
+  }, 150);
 }
 
 // -----------------------------
-// SIZE / BREED / VIEW CONTROLS
+// SIZE / BREED / VIEW
 // -----------------------------
 sizeBtns.forEach(btn => {
   btn.addEventListener("click", () => {
     sizeBtns.forEach(b => b.classList.remove("active"));
     btn.classList.add("active");
 
-    const map = { XS: "xs", S: "sm", M: "med", L: "lg", XL: "xl" };
-    state.size = map[btn.dataset.size] || "xs";
+    state.size = SIZE_MAP[btn.dataset.size];
     populateBreeds();
-    updateDogImage();
   });
 });
 
@@ -96,7 +106,7 @@ viewBtns.forEach(btn => {
 });
 
 // -----------------------------
-// CANVAS / CAMERA
+// CANVAS
 // -----------------------------
 function resizeCanvas() {
   const rect = canvas.parentElement.getBoundingClientRect();
@@ -107,6 +117,7 @@ function resizeCanvas() {
   canvas.style.height = rect.height + "px";
   ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 }
+
 window.addEventListener("resize", resizeCanvas);
 
 async function startCamera() {
@@ -138,40 +149,3 @@ function draw() {
   resizeCanvas();
   const w = canvas.clientWidth;
   const h = canvas.clientHeight;
-
-  if (useCamera && video.readyState >= 2) {
-    ctx.drawImage(video, 0, 0, w, h);
-  } else if (hasBgImage) {
-    ctx.drawImage(bgImg, 0, 0, w, h);
-  } else {
-    ctx.fillStyle = "#0b0f14";
-    ctx.fillRect(0, 0, w, h);
-  }
-  requestAnimationFrame(draw);
-}
-
-// -----------------------------
-// CONTROLS
-// -----------------------------
-startCamBtn.addEventListener("click", startCamera);
-stopCamBtn.addEventListener("click", stopCamera);
-bgUpload.addEventListener("change", e => loadBg(e.target.files[0]));
-
-resetBtn.addEventListener("click", () => {
-  stopCamera();
-  hasBgImage = false;
-});
-
-exportBtn.addEventListener("click", () => {
-  const a = document.createElement("a");
-  a.download = "fit-preview.png";
-  a.href = canvas.toDataURL("image/png");
-  a.click();
-});
-
-// -----------------------------
-// BOOT
-// -----------------------------
-populateBreeds();
-updateDogImage();
-draw();
