@@ -355,11 +355,8 @@ button:hover {
    Reveal animations
    ========================= */
 .reveal {
-  opacity: 0;
-  transform: translateY(14px);
-  transition:
-    opacity var(--dur-slow) var(--ease-soft),
-    transform var(--dur-slow) var(--ease-soft);
+  opacity: 1;
+  transform: none;
 }
 
 .reveal.visible {
